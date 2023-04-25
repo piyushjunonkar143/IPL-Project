@@ -128,7 +128,7 @@ class  Reader {
 
         public void scenario1()
         {
-            HashMap hm = new HashMap<>();
+            TreeMap hm = new TreeMap();
             Matches m2 = (Matches) matches.get(1);
             int i = 2, count = 2;
             while(i<matches.size())
@@ -142,12 +142,30 @@ class  Reader {
                 else
                     count = 2;
             }
+            System.err.println("Number of matches played per year of all the years in IPL are : ");
+            System.out.println(hm);
 
         }
 
     public void scenario2()
     {
-
+        TreeMap hm = new TreeMap();
+        Matches m2 = (Matches) matches.get(1);
+        int i = 2, c=0,count = 2;
+        while(i<matches.size())
+        {
+            String sea = m2.winner;
+            m2 = (Matches) matches.get(i++);
+            String w = m2.winner;
+            if (hm.containsKey(w))
+            c = (int) hm.get(w);
+//            if(m2.winner.equals(sea)) {
+                hm.put(w, ++c);
+//            }
+//            else
+//                count = 2;
+        }
+        System.out.println(hm);
     }
 
     public void scenario3()
