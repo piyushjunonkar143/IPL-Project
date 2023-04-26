@@ -12,9 +12,10 @@ class  Reader {
 
     public static void main(String[] args) {
         Reader r = new Reader();
-        r.addData(); //method for reading the data from both csv files
+        r.addData();                                      //method for reading the data from both csv files
         Scanner sc = new Scanner(System.in);
-        for (; ; ) {
+        for (; ; )                                        // Infinite loop running so that we can access all the scenario at once
+        {
             System.out.println("\n" +
                     "    1. Number of matches played per year of all the years in IPL.\n" +
                     "    2. Number of matches won of all teams over all the years of IPL.\n" +
@@ -46,7 +47,7 @@ class  Reader {
                     break;
 
                 case 6:
-                    System.exit(0);
+                    System.exit(0);                   // whole program will be stopped
                     break;
 
                 default:
@@ -59,82 +60,42 @@ class  Reader {
     public void addData() {
 
         String line = "";
-        d = new Deliveries();
-        m = new Matches();
+        d = new Deliveries();                             // Object created for Deliveries class
+        m = new Matches();                                // Object created for Matches class
         deliveries = new ArrayList();
         matches = new ArrayList();
         try {
-            BufferedReader br = new BufferedReader(new FileReader("IPL-Project/deliveries.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("IPL-Project/deliveries.csv"));       // This will read the deliveries.csv file
             while ((line = br.readLine()) != null) {
                 int count = 0;
                 String[] d1 = line.split(",");
-//                    d.match_id = d1[count++];
-//                    d.inning = d1[count++];
-//                    d.batting_team = d1[count++];
-//                    d.bowling_team = d1[count++];
-//                    d.over = d1[count++];
-//                    d.ball = d1[count++];
-//                    d.batsman = d1[count++];
-//                    d.non_striker = d1[count++];
-//                    d.bowler = d1[count++];
-//                    d.is_super_over = d1[count++];
-//                    d.wide_runs = d1[count++];
-//                    d.bye_runs = d1[count++];
-//                    d.legbye_runs = d1[count++];
-//                    d.noball_runs = d1[count++];
-//                    d.penalty_runs = d1[count++];
-//                    d.batsman_runs = d1[count++];
-//                    d.extra_runs = d1[count++];
-//                    d.total_runs = d1[count++];
-               Deliveries d2 = new Deliveries(d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++]);
-                deliveries.add(d2);
-                //  System.out.println(d2);
+                Deliveries d2 = new Deliveries(d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++], d1[count++]);
+                deliveries.add(d2);                       // adding each rows to deliveries list so that it will be easily accessible
             }
-            //System.out.println(deliveries.get(100000));
-            BufferedReader br1 = new BufferedReader(new FileReader("IPL-Project/matches.csv"));
+            BufferedReader br1 = new BufferedReader(new FileReader("IPL-Project/matches.csv"));  // this will read the matches.csv file
             while ((line = br1.readLine()) != null) {
                 int count = 0;
-                String[] m1 = line.split(",");
-//                    m.id = m1[count++];
-//                    //System.out.println(m.id);
-//                    m.season = m1[count++];
-//                    m.city = m1[count++];
-//                    m.date = m1[count++];
-//                    m.team1 = m1[count++];
-//                    m.team2 = m1[count++];
-//                    m.toss_winner = m1[count++];
-//                    m.toss_decision = m1[count++];
-//                    m.result = m1[count++];
-//                    m.dl_applied = m1[count++];
-//                    m.winner = m1[count++];
-//                    m.win_by_runs = m1[count++];
-//                    m.win_by_wickets = m1[count++];
-//                    m.player_of_match = m1[count++];
-//                    m.venue = m1[count++];
+                String[] m1 = line.split(",");      // it will split each data from a row
                 Matches m2 = new Matches(m1[count++], m1[count++], m1[count++], m1[count++], m1[count++], m1[count++], m1[count++], m1[count++], m1[count++], m1[count++], m1[count++], m1[count++], m1[count++], m1[count++], m1[count++]);
-                matches.add(m2);
-                // System.out.println(m);
+                matches.add(m2);                          // adding each rows to matches list so that it will be easily accessible
             }
-            System.out.println(matches.get(0));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        }catch (IOException e) {
+            System.out.println("something wrong happened while reading the files/ taking the input");
             e.printStackTrace();
-        }
+         }
     }
-
     public void scenario1() {
-        TreeMap hm = new TreeMap();
-        Matches m2 = (Matches) matches.get(1);
+        TreeMap<String , Integer> hm = new TreeMap<String, Integer>();  //this will store the year and no. of matches data
+        Matches m2 = (Matches) matches.get(1); // object type data is down casted to Matches type class
         int i = 2, count = 2;
         while (i < matches.size()) {
             String sea = m2.season;
             m2 = (Matches) matches.get(i++);
-
             if (m2.season.equals(sea)) {
                 hm.put(m2.season, count++);
-            } else
+            } else {
                 count = 2;
+            }
         }
         System.err.println("Number of matches played per year of all the years in IPL are : ");
         System.out.println(hm);
@@ -143,17 +104,19 @@ class  Reader {
 
     public void scenario2() {
         //2. Number of matches won of all teams over all the years of IPL.
-        TreeMap hm = new TreeMap();
+        TreeMap<String, Integer> hm = new TreeMap<String, Integer>();
         Matches m2 = (Matches) matches.get(1);
-        int i = 1, count = 2;
+        int i = 1;
         while (i < matches.size()) {
             int c = 0;
-            String sea = m2.winner;
             m2 = (Matches) matches.get(i++);
             String w = m2.winner;
+            if(w.equals(""))
+            {
+                continue;
+            }
             if (hm.containsKey(w)) {
                 c = (int) hm.get(w);
-                //System.out.println(c);
             }
             hm.put(w, ++c);
         }
@@ -170,25 +133,26 @@ class  Reader {
         while (i < matches.size()) {
             Matches m2 = (Matches) matches.get(i++);
             int j = 1;
+
             if (m2.season.equals("2016")) {
                 m_id = Integer.parseInt(m2.id);
-                // System.out.println(m_id);
+
                 while (j < deliveries.size()) {
                     Deliveries d2 = (Deliveries) deliveries.get(j++);
                     w = d2.batting_team;
+
                     if (d2.match_id.equals(m2.id)) {
-                        //System.out.println("first");
+
                         if (hm.containsKey(w) && d2.extra_runs != null) {
                             count = (int) hm.get(w) + Integer.parseInt(d2.extra_runs);
-                            //System.out.println(d2.match_id+ " - " +d2.batting_team + "  -  "+ count);
                         } else {
                             count = 0;
                         }
+
                         hm.put(w, count);
                     }
                 }
             }
-//                System.out.println(m_id + " - "+ Integer.parseInt(d2.extra_runs));
         }
         System.err.println("For the year 2016 get the extra runs conceded per team are :.");
         System.out.println(hm);
@@ -200,40 +164,53 @@ class  Reader {
         TreeMap hm = new TreeMap();
         TreeMap hm2 = new TreeMap();
         TreeMap hm3 = new TreeMap();
-        Integer m_id = 0, count = 1, bowl=0;
+        Integer m_id = 0, count = 0, bowl=0;
         String w = "";
         int i = 1;
+
         while (i < matches.size()) {
+
             Matches m2 = (Matches) matches.get(i++);
             int j = 0;
             if (m2.season.equals("2015")) {
+
                 m_id = Integer.parseInt(m2.id);
-                // System.out.println(m_id);
                 while (j < deliveries.size()) {
+
                     Deliveries d2 = (Deliveries) deliveries.get(j++);
                     w = d2.bowler;
                     if (d2.match_id.equals(m2.id)) {
-                        //System.out.println("first");
+
                         if (hm.containsKey(w)) {
+
                             count = (int) hm.get(w) + Integer.parseInt(d2.total_runs);
-                           // System.out.println(d2.match_id+ " - " +d2.bowler + "  -  "+ count);
                             bowl = (int) hm2.get(w) + 1;
-                            System.out.println(d2.match_id+ " - " +d2.bowler + "  -  "+ bowl);
                         } else {
-                            count = 1;
+                            count = 0;
                             bowl =1;
                         }
+
                         hm.put(w, count);
                         hm2.put(w, bowl);
-                        double b = bowl/6;
-                        if(b>=1)
-                        hm3.put(count/b,w);
+                        double b = count / (bowl / 6.0);
+                        hm3.put(w,b);
                     }
                 }
             }
         }
+        double min = 100;
+        Object minkey = null;
+        for(Object a : hm3.keySet())
+        {
+            double value = (double) hm3.get(a);
+            if(value<min)
+            {
+                min = value;
+                minkey = a;
+            }
+        }
         System.err.println("Most Economical bowler is : ");
-        System.out.println(hm3.firstEntry().getValue() + " with economy rate " + hm3.firstEntry().getKey());
+        System.out.println(minkey + " with economy rate " + min);
     }
     public void scenario5()
     {
@@ -254,7 +231,7 @@ class  Reader {
             }
             hm.put(b, score);
         }
+        System.err.println("Total runs scored by each players in IPL");
         System.out.println(hm);
-
     }
     }
