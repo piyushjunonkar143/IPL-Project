@@ -149,21 +149,20 @@ class  Reader {
 
     public void scenario2()
     {
-        TreeMap hm = new TreeMap();
+        //2. Number of matches won of all teams over all the years of IPL.
+        HashMap hm = new HashMap();
         Matches m2 = (Matches) matches.get(1);
-        int i = 2, c=0,count = 2;
-        while(i<matches.size())
-        {
+        int i = 2,count = 2;
+        while(i<matches.size()) {
+            int c=0;
             String sea = m2.winner;
             m2 = (Matches) matches.get(i++);
             String w = m2.winner;
-            if (hm.containsKey(w))
-            c = (int) hm.get(w);
-//            if(m2.winner.equals(sea)) {
-                hm.put(w, ++c);
-//            }
-//            else
-//                count = 2;
+            if (hm.containsKey(w)) {
+                c = (int) hm.get(w);
+                System.out.println(c);
+            }
+            hm.put(w, ++c);
         }
         System.out.println(hm);
     }
